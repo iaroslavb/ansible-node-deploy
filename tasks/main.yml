@@ -1,0 +1,27 @@
+---
+# tasks file for ansible-node-deploy/
+- name: Create `ansible` user
+  sudo: True
+  user:
+    name="ansible"
+    home="/home/ansible"
+    shell="/bin/bash"
+    append="true"
+    group="admin"
+    comment="ansible"
+
+- name: Set up authorized_key
+  sudo: True
+  authorized_key:
+    key="{{lookup('file', '~/.ssh/id_rsa.pub')}}"
+    user="ansible"
+    manage_dir=no
+
+- name: allow sudo without password for ansible user
+  sudo: True
+  copy:
+    src: ansible
+    dest: /etc/sudoers.d/ansible
+    owner: root
+    group: root
+    mode: 0644
