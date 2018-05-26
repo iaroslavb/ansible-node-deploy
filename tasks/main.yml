@@ -1,5 +1,10 @@
 ---
 # tasks file for ansible-node-deploy/
+- name: Ensure group "admin" exists
+  group:
+    name:   admin
+    state:  present
+
 - name: Create `ansible` user
   user:
     name="ansible"
